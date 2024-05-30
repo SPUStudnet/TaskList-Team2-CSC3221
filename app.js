@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Define HTTP routes listenting for requests
 app.get("/api", async (req,res) => {
-
+  
 })
 
 app.post("/api", async (req,res) => {
