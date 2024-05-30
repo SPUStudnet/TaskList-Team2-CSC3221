@@ -39,13 +39,13 @@ async function httpPost(e) {
 
 function httpDelete(e) {
 
-  
+
 }
 
 // Loading functions
 function showLoading() {
   result.innerHTML = "Loading...";
-}
+} 
 
 async function main() {
   addButton.disabled = true;
