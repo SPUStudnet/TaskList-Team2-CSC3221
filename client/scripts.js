@@ -39,8 +39,10 @@ async function WriteList() {
 
 /* Listener Functions */
 async function httpPost(e) {
+  theList.push(input.value);
+  console.log(JSON.stringify(theList));
 
-  
+  return WriteList();
 }
 
 function httpDelete(e) {
