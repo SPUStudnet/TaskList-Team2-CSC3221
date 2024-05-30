@@ -2,21 +2,25 @@ const fs = require("fs/promises")
 
 async function ReadData() {
   try {
-    // Make sure the file exists
-    // Read the file
-    // convert the buffer to a json object and return it
-  } catch (error) {
-
+    const route = "./listdata.json";
+    const data = await fs.readFile(route, "utf8");
+    const thing = JSON.parse(data.toString());
+    return thing;
+  } catch (err) {
+    console.error("Error reading file:", err);
+    return -1;
   }
 }
 
 async function WriteData(dataOut) {
   try {
-    // Write the file
-
-  } catch (error) {
-
-  }
+    await fs.writeFile("./listdata.json", stringify(dataOut), 'utf8');
+    console.log('Content written successfully');
+    return true;
+} catch (err) {
+    console.error('Error writing to file:', err);
+    return false;
+}
 }
 
 exports.ReadData = ReadData;
