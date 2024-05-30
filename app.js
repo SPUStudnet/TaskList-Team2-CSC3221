@@ -12,7 +12,15 @@ app.use(express.json());
 
 // Define HTTP routes listenting for requests
 app.get("/api", async (req,res) => {
+try{
+const data = await fm.ReadData();
+if (data===-1) throw new Error("It's not working");
+res.json(data);
+res.status(200).send(data);
 
+}catch(error){
+  res.status(500).json(error.message);
+}
 })
 
 app.post("/api", async (req,res) => {
