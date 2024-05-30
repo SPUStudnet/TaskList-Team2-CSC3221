@@ -28,7 +28,13 @@ async function GetList() {
 }
 
 async function WriteList() {
-
+  return http.post(URL, theList)
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.error(`Error ${error}`);
+  });
 }
 
 /* Listener Functions */
