@@ -46,8 +46,16 @@ async function httpPost(e) {
 }
 
 function httpDelete(e) {
+  let index = theList.indexOf(input.value)
 
-
+  if(index !== -1) {
+    theList.pop(index);
+    console.log(JSON.stringify(theList));
+    return WriteList();
+  } else {
+    console.log(`${input.value} not found`);
+  }
+  
 }
 
 // Loading functions
