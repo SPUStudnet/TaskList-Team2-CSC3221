@@ -44,17 +44,17 @@ function ShowList() {
 
 
 async function GetList() {
-	showLoading();
-	try {
-		const response = await http.get("/api");
-		if (response.ok) {
-			throw new Error("HTTP Error: " + response.status);
-		}
-		theList = response;
-		ShowList();
-	} catch (error) {
-		result.innerHTML = error.message;
-	}
+  showLoading();
+  try{
+      const response = await fetch("/api");
+      if (!response.ok){
+  throw new Error("HTTP Error: " + response.status);
+      }
+      theList = await response.json();
+      ShowList();
+  }catch(error){
+      result.innerHTML = error.message;
+  }
 }
 
 async function WriteList() {
@@ -80,7 +80,6 @@ function httpDelete(e) {
   
 }
 
-/* Listener Functions */
 async function httpPost(e) {
 	showLoading();
 	try {
