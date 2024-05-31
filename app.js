@@ -11,14 +11,14 @@ app.use(express.static("./client"));
 app.use(express.json());
 
 // Define HTTP routes listenting for requests
-app.get("/api", async (req,res) => {
-try{
-const data = await fm.ReadData();
-if (data===-1) throw new Error("It's not working");
-res.json(data);
-}catch(error){
-  res.status(500).json({ error: error.message });
-}
+app.get("/api", async (req, res) => {
+	try {
+		const data = await fm.ReadData();
+		if (data === -1) throw new Error("It's not working");
+		res.json(data);
+	} catch (error) {
+		res.status(500).json({error: error.message});
+	}
 });
 
 app.post("/api", async (req, res) => {
@@ -28,70 +28,72 @@ app.post("/api", async (req, res) => {
 		let item = req.body;
 		if (item.hasOwnProperty("mode")) {
 			if (item.mode == "modify") {
-				if (item.hasOwnProperty("index"), item.hasOwnProperty("data")) {
-					console.log("Modifying item #" + item.index + " with data " + item.data);
+				if (
+					(item.hasOwnProperty("index"), item.hasOwnProperty("data"))
+				) {
+					console.log(
+						"Modifying item #" +
+							item.index +
+							" with data " +
+							item.data
+					);
 					await fm.ModifyItem(item.index, item.data);
 					res.json("Recieved");
-				}
-				else {
+				} else {
 					console.log("User attempted to pass invalid data: " + item);
 					res.status(403);
 					return;
 				}
-			}
-			else if (item.mode == "add") {
+			} else if (item.mode == "add") {
 				if (item.hasOwnProperty("data")) {
 					if (item.data != "") {
-						console.log("Adding item " + item.data + " to the end of the list!");
+						console.log(
+							"Adding item " +
+								item.data +
+								" to the end of the list!"
+						);
 						await fm.AddItem(0, item.data);
 						res.json("Recieved");
+					} else {
+						console.log(
+							"User tried to pass blank string to POST data."
+						);
 					}
-					else {
-						console.log("User tried to pass blank string to POST data.");
-					}
-					
-				}
-				else {
-					console.log("User attempted to send POST request without data.");
+				} else {
+					console.log(
+						"User attempted to send POST request without data."
+					);
 					res.status(403);
 					return;
 				}
-			}
-			else {
+			} else {
 				console.log("Invalid POST mode type: " + req.mode);
 				res.status(403);
 			}
-		}
-		else {
+		} else {
 			console.log("Post request made without mode: " + req.body);
 			res.status(403);
 		}
-	}
-	catch (error) {
+	} catch (error) {
 		console.log(error);
-		res.status(500).json("Post request error.")
+		res.status(500).json("Post request error.");
 	}
 });
 
-app.delete("/api", async (req,res) => {
-	
-  try {
-	let item = req.body;
-	if (item.hasOwnProperty("stringItem")) {
+app.delete("/api", async (req, res) => {
+	try {
+		let item = req.body;
 		console.log("Deleting item.");
+
 		const data = await fm.DeleteItem(req.stringItem);
 		if (data === -1) {
-		  throw new Error("Item not found");
+			throw new Error("Item not found");
 		}
-		res.json(data); 
+		res.json(data);
 		return;
+	} catch {
+		res.status(500).json(error.message);
 	}
-
-  } catch {
-    res.status(500).json(error.message)
-  }
-  
-
 });
 
 // page not found route

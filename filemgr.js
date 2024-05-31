@@ -117,36 +117,19 @@ async function AddItem(index, stringData) {
   }
 }
 
-async function DeleteItem(dataIn) {
+async function DeleteItem() {
   try {
     const data = await fs.readFile(route, "utf8");
     const list = JSON.parse(data.toString());
-    const index = list.indexOf(dataIn);
-    if (index > -1) {
-      list.splice(index, 1);
+    if (list.length > 0) {
+      list.shift();
+      WriteData(list);
       return true;
-    } else {
+    }
+    else {
       return false;
     }
-      
-  } catch {
-    console.error("Could not delete from file: ", error);
-    return false;
-  }
-}
 
-async function DeleteItem(dataIn) {
-  try {
-    const data = await fs.readFile(route, "utf8");
-    const list = JSON.parse(data.toString());
-    const index = list.indexOf(dataIn);
-    if (index > -1) {
-      list.splice(index, 1);
-      return true;
-    } else {
-      return false;
-    }
-      
   } catch {
     console.error("Could not delete from file: ", error);
     return false;
