@@ -67,7 +67,24 @@ async function WriteList() {
   });
 }
 
-function httpDelete(e) {
+async function httpDelete(e) {
+
+	showLoading();
+	try {
+		e.preventDefault();
+		if (input.value != "") {
+			const response = await http.delete("/api", {stringItem:input.value});
+			input.value = "";
+			// if (response)
+			// 	//do nothing
+			// if (/**Response is bad */)
+			// 	//show an alert determined by backend.
+			GetList();
+		}
+	}
+	catch (error) {
+		console.log("Error when trying to delete!" + error + " Passed: " + e);
+	}
   let index = theList.indexOf(input.value)
 
   if(index !== -1) {
