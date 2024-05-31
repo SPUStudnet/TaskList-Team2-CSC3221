@@ -7,7 +7,7 @@ const fm = require("./filemgr");
 const app = express();
 
 // Define some built-in middleware
-app.use(express.static("./Client"));
+app.use(express.static("./client"));
 app.use(express.json());
 
 // Define HTTP routes listenting for requests
@@ -16,12 +16,11 @@ try{
 const data = await fm.ReadData();
 if (data===-1) throw new Error("It's not working");
 res.json(data);
-res.status(200).send(data);
-
+//res.status(200).send(data);
 }catch(error){
   res.status(500).json(error.message);
 }
-})
+});
 
 app.post("/api", async (req,res) => {
 

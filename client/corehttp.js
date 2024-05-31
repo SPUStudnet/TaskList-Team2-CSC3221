@@ -58,3 +58,4 @@ class coreHTTP {
       }
   }
 }
+module.exports = coreHTTP;

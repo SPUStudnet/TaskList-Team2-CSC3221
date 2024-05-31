@@ -14,7 +14,7 @@ async function ReadData() {
 
 async function WriteData(dataOut) {
   try {
-    await fs.writeFile("./listdata.json", stringify(dataOut), 'utf8');
+    await fs.writeFile("./listdata.json", JSON.stringify(dataOut), 'utf8');
     console.log('Content written successfully');
     return true;
 } catch (err) {

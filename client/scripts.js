@@ -27,7 +27,7 @@ async function GetList() {
   showLoading();
   try{
       const response = await fetch("/api");
-      if (response.ok){
+      if (!response.ok){
   throw new Error("HTTP Error: " + response.status);
       }
       theList = await response.json();
@@ -35,10 +35,23 @@ async function GetList() {
   }catch(error){
       result.innerHTML = error.message;
   }
-  }
+}
 
 async function WriteList() {
-
+showLoading();
+try{
+    const response = await fetch("/api", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+     if (!response.ok) throw new Error("HTTP Error: " + response.status);
+    await GetList();
+  } catch (error) {
+    result.innerHTML = error.message;
+  }
 }
 
 /* Listener Functions */
