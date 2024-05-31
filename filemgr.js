@@ -117,7 +117,27 @@ async function AddItem(index, stringData) {
   }
 }
 
+async function DeleteItem() {
+  try {
+    const data = await fs.readFile(route, "utf8");
+    const list = JSON.parse(data.toString());
+    if (list.length > 0) {
+      list.shift();
+      WriteData(list);
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  } catch {
+    console.error("Could not delete from file: ", error);
+    return false;
+  }
+}
+
 exports.AddItem = AddItem;
 exports.ReadData = ReadData;
 exports.WriteData = WriteData;
 exports.ModifyItem = ModifyItem;
+exports.DeleteItem = DeleteItem;
