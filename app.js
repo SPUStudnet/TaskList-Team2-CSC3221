@@ -74,13 +74,13 @@ app.post("/api", async (req, res) => {
 });
 
 // page not found route
-app.all("*", (req,res) => {
-  res.status(404).send("<h1>Page Not Found...</h1>");
+app.all("*", (req, res) => {
+	res.status(404).send("<h1>Page Not Found...</h1>");
 });
 
 // Create a server
 const appName = "Simple List";
 const port = 5000;
 app.listen(port, () => {
-  console.log(`App ${appName} is running on port ${port}`);
-})
+	console.log(`App ${appName} is running on port ${port}`);
+});

@@ -1,16 +1,16 @@
-const http = new coreHTTP;
+const http = new coreHTTP();
 
 // Block Variables
 let theList = [];
 
 // setup selectors
 const result = document.querySelector(".result");
-const input =  document.querySelector("#listitem");
-const addButton =  document.querySelector(".add-btn");
-const delButton =  document.querySelector(".del-btn");
+const input = document.querySelector("#listitem");
+const addButton = document.querySelector(".add-btn");
+const delButton = document.querySelector(".del-btn");
 
 // Listeners
-addButton.addEventListener("click", httpPost);
+addButton.addEventListener("click", addListItem);
 delButton.addEventListener("click", httpDelete);
 
 /* Helper Functions */
@@ -42,6 +42,7 @@ function ShowList() {
 	}
 }
 
+
 async function GetList() {
   showLoading();
   try{
@@ -57,20 +58,26 @@ async function GetList() {
 }
 
 async function WriteList() {
-showLoading();
-try{
-    const response = await fetch("/api", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
-     if (!response.ok) throw new Error("HTTP Error: " + response.status);
-    await GetList();
-  } catch (error) {
-    result.innerHTML = error.message;
+  return http.post(URL, theList)
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.error(`Error ${error}`);
+  });
+}
+
+function httpDelete(e) {
+  let index = theList.indexOf(input.value)
+
+  if(index !== -1) {
+    theList.pop(index);
+    console.log(JSON.stringify(theList));
+    return WriteList();
+  } else {
+    console.log(`${input.value} not found`);
   }
+  
 }
 
 async function httpPost(e) {
@@ -94,9 +101,6 @@ async function addListItem(e) {
 	input.value = "";
 }
 
-
-function httpDelete(e) {}
-
 // Loading functions
 function showLoading() {
 	result.innerHTML = "Loading...";
@@ -114,3 +118,4 @@ async function main() {
 }
 
 main();
+
