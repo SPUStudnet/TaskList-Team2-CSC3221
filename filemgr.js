@@ -76,19 +76,48 @@ async function ModifyItem(index, stringData) {
 */
 async function WriteData(dataOut) {
   try {
-    const data = await fs.readFile(route, "utf8");
-    const list = JSON.parse(data.toString());
-    list.push(stringData);
-    await fs.writeFile("./listdata.json", JSON.stringify(list), "utf8");
+    await fs.writeFile("./listdata.json", JSON.stringify(dataOut), 'utf8');
+    console.log('Content written successfully');
     return true;
-  }
-  catch (error) {
-    console.error("Could not write to file: ", error);
+} catch (err) {
+    console.error('Error writing to file:', err);
     return false;
-  }
-
+}
 }
 
+/**
+ * This function and AddItem both read the entire list into server memory to add one item.
+ * This is incredibly inefficient and should probably be fixed.
+ * @param {} index 
+ * @param {*} stringData 
+ * @returns 
+ */
+async function AddItem(index, stringData) {
+  try {
+    console.log(stringData);
+    const data = await fs.readFile(route, "utf8");
+    const list = JSON.parse(data.toString());
+
+    if (list.length >= index) {
+      if (stringData == "") {
+        list.splice(index, 1);
+      }
+      else {
+        list.push(stringData);
+      }
+    }
+    else {
+      throw new Error("Index requested does not exist!");
+    }
+    await fs.writeFile("./listdata.json", JSON.stringify(list), "utf8");
+    return true;
+  } catch (err) {
+    console.error("Could not write to file: ", err);
+    return false;
+  }
+}
+
+exports.AddItem = AddItem;
 exports.ReadData = ReadData;
 exports.WriteData = WriteData;
 exports.ModifyItem = ModifyItem;
