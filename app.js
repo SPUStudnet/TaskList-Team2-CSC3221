@@ -77,7 +77,7 @@ app.post("/api", async (req, res) => {
 
 app.delete("/api", async (req,res) => {
   try {
-    const data = await fm.DeleteItem(req.body.index);
+    const data = await fm.DeleteItem(req.body);
     if (data === -1) {
       throw new Error("Item not found");
     }

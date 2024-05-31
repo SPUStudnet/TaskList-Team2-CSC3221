@@ -89,6 +89,25 @@ async function WriteData(dataOut) {
 
 }
 
+async function DeleteItem(dataIn) {
+  try {
+    const data = await fs.readFile(route, "utf8");
+    const list = JSON.parse(data.toString());
+    const index = list.indexOf(dataIn);
+    if (index > -1) {
+      list.splice(index, 1);
+      return true;
+    } else {
+      return false;
+    }
+      
+  } catch {
+    console.error("Could not delete from file: ", error);
+    return false;
+  }
+}
+
 exports.ReadData = ReadData;
 exports.WriteData = WriteData;
 exports.ModifyItem = ModifyItem;
+exports.DeleteItem = DeleteItem;
