@@ -11,29 +11,29 @@ app.use(express.static("./Client"));
 app.use(express.json());
 
 // Define HTTP routes listenting for requests
-<<<<<<< Updated upstream
-app.get("/api", async (req,res) => {
-  
-})
-
-app.post("/api", async (req,res) => {
-
-})
-=======
 app.get("/api", async (req, res) => {
 	try {
 		const data = await fm.ReadData();
 		if (data === -1) throw new Error("It's not working");
 		res.json(data);
-		//res.status(200).send(data);
 		return;
 	} catch (error) {
 		res.status(500).json(error.message);
 	}
 });
 
+app.post("/api", async (req, res) => {
+	try {
+		console.log(req.data);
+		res.json("Recieved");
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500).json("Post request error.")
+	}
+});
+
 app.post("/api", async (req, res) => {});
->>>>>>> Stashed changes
 
 // page not found route
 app.all("*", (req, res) => {
