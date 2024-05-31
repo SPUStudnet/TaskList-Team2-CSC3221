@@ -24,8 +24,24 @@ function ShowList() {
 }
 
 async function GetList() {
+<<<<<<< Updated upstream
 
 }
+=======
+  showLoading();
+  try{
+    console.log(http.get("/api"))
+      const response = await http.get("/api");
+      if (response.ok){
+  throw new Error("HTTP Error: " + response.status);
+      }
+      theList = response;
+      ShowList();
+  }catch(error){
+      result.innerHTML = error.message;
+  }
+  }
+>>>>>>> Stashed changes
 
 async function WriteList() {
 
