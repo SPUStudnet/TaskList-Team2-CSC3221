@@ -43,7 +43,7 @@ app.post("/api", async (req, res) => {
 				if (item.hasOwnProperty("data")) {
 					if (item.data != "") {
 						console.log("Adding item " + item.data + " to the end of the list!");
-						await fm.AddItem(item.data);
+						await fm.AddItem(0, item.data);
 						res.json("Recieved");
 					}
 					else {
