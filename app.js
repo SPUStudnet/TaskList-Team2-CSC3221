@@ -74,13 +74,19 @@ app.post("/api", async (req, res) => {
 });
 
 app.delete("/api", async (req,res) => {
+	
   try {
-    const data = await fm.DeleteItem(req.body);
-    if (data === -1) {
-      throw new Error("Item not found");
-    }
-    res.json(data); 
-    return;
+	let item = req.body;
+	if (item.hasOwnProperty("stringItem")) {
+		console.log("Deleting item.");
+		const data = await fm.DeleteItem(req.stringItem);
+		if (data === -1) {
+		  throw new Error("Item not found");
+		}
+		res.json(data); 
+		return;
+	}
+
   } catch {
     res.status(500).json(error.message)
   }

@@ -68,32 +68,21 @@ async function WriteList() {
 }
 
 async function httpDelete(e) {
-
 	showLoading();
 	try {
 		e.preventDefault();
 		if (input.value != "") {
-			const response = await http.delete("/api", {stringItem:input.value});
+			const response = await http.delete("/api");
 			input.value = "";
-			// if (response)
-			// 	//do nothing
-			// if (/**Response is bad */)
-			// 	//show an alert determined by backend.
+			if (response == "true") {
+				alert("Item could not be found in list!")
+			}
 			GetList();
 		}
 	}
 	catch (error) {
 		console.log("Error when trying to delete!" + error + " Passed: " + e);
 	}
-  let index = theList.indexOf(input.value)
-
-  if(index !== -1) {
-    theList.pop(index);
-    console.log(JSON.stringify(theList));
-    return WriteList();
-  } else {
-    console.log(`${input.value} not found`);
-  }
   
 }
 
