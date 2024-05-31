@@ -74,7 +74,21 @@ app.post("/api", async (req, res) => {
 	}
 });
 
-app.post("/api", async (req, res) => {});
+
+app.delete("/api", async (req,res) => {
+  try {
+    const data = await fm.DeleteItem(req.body.index);
+    if (data === -1) {
+      throw new Error("Item not found");
+    }
+    res.json(data); 
+    return;
+  } catch {
+    res.status(500).json(error.message)
+  }
+  
+
+});
 
 // page not found route
 app.all("*", (req, res) => {
