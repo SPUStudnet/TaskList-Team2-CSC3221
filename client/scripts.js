@@ -10,7 +10,7 @@ const addButton = document.querySelector(".add-btn");
 const delButton = document.querySelector(".del-btn");
 
 // Listeners
-addButton.addEventListener("click", httpPost);
+addButton.addEventListener("click", addListItem);
 delButton.addEventListener("click", httpDelete);
 
 /* Helper Functions */
@@ -28,7 +28,6 @@ function ShowList() {
 		item.onkeydown = function(event) {
 			if (event.key == 'Enter') {
 				event.preventDefault();
-				console.log("Enter key pressed inside listItem!");
 				item.blur();
 			}
 			if (event.key == '\\' || event.key == '^' || event.key == '(' || event.key == ')') {
@@ -37,8 +36,8 @@ function ShowList() {
 			}
 		}
 		item.addEventListener("blur", function() {
-			//httpPost("{index:\"" + Array.prototype.indexOf.call(listItems, item) + "\", data:\"" +  item.textContent + "\"}");
-			httpPost({index:Array.prototype.indexOf.call(listItems, item), data:item.textContent});
+			httpPost({mode:"modify", data:item.textContent, index:Array.prototype.indexOf.call(listItems, item)});
+			
 		});
 	}
 }
@@ -65,16 +64,21 @@ async function httpPost(e) {
 	showLoading();
 	try {
 		const response = await http.post("/api", e);
-		if (response != "Recieved") {
-			throw new Error("Response was not as expected!");
-		}
 		GetList();
-		
 	}
 	catch (error) {
 		console.log(error);
 		alert("An unrecoverable error was encountered: " + error);
+		GetList();
 	}
+}
+
+async function addListItem(e) {
+	// Ask professor if this line is ok, as it overrides formal logic for form submissions to POST.
+	e.preventDefault();
+	
+	await httpPost({mode:"add", data:input.value});
+	input.value = "";
 }
 
 
