@@ -1,6 +1,17 @@
+/**
+ * filemgr.js
+ * CSC 3221
+ * Main Code: Dorothy Prosser
+ * Comments: Dorothy Prosser
+ * Created 5/30/24
+ */
 const fs = require("fs/promises");
 const route = "./listdata.json";
 
+/**
+ * Reads the data from listdata.json
+ * @returns an array of string values read from listdata.json, -1 if there is an error
+ */
 async function ReadData() {
 	try {
 		const data = await fs.readFile(route, "utf8");
@@ -57,7 +68,13 @@ async function ModifyItem(index, stringData) {
   }
 }
 
-async function AddItem(stringData) {
+/** 
+ * WriteData Function
+ * @param {*} dataOut is the data that will be written when the function is called
+ * returns true if the data was successfully written
+ * returns false if the data was not successfully written
+*/
+async function WriteData(dataOut) {
   try {
     const data = await fs.readFile(route, "utf8");
     const list = JSON.parse(data.toString());
@@ -72,7 +89,6 @@ async function AddItem(stringData) {
 
 }
 
-exports.AddItem = AddItem;
 exports.ReadData = ReadData;
 exports.WriteData = WriteData;
 exports.ModifyItem = ModifyItem;

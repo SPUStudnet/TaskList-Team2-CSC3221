@@ -57,7 +57,28 @@ async function GetList() {
 	}
 }
 
-async function WriteList() {}
+async function WriteList() {
+  return http.post(URL, theList)
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.error(`Error ${error}`);
+  });
+}
+
+function httpDelete(e) {
+  let index = theList.indexOf(input.value)
+
+  if(index !== -1) {
+    theList.pop(index);
+    console.log(JSON.stringify(theList));
+    return WriteList();
+  } else {
+    console.log(`${input.value} not found`);
+  }
+  
+}
 
 /* Listener Functions */
 async function httpPost(e) {
@@ -80,9 +101,6 @@ async function addListItem(e) {
 	await httpPost({mode:"add", data:input.value});
 	input.value = "";
 }
-
-
-function httpDelete(e) {}
 
 // Loading functions
 function showLoading() {
