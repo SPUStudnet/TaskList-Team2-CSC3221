@@ -94,6 +94,7 @@ async function WriteData(dataOut) {
  */
 async function AddItem(index, stringData) {
   try {
+    console.log(stringData);
     const data = await fs.readFile(route, "utf8");
     const list = JSON.parse(data.toString());
 
@@ -102,9 +103,8 @@ async function AddItem(index, stringData) {
         list.splice(index, 1);
       }
       else {
-        list[index] = stringData;
+        list.push(stringData);
       }
-      
     }
     else {
       throw new Error("Index requested does not exist!");
