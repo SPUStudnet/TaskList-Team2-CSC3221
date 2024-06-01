@@ -1,10 +1,17 @@
 /**
  * filemgr.js
+ * File manager for list project.
+ * 
  * CSC 3221
- * Main Code: Dorothy Prosser
- * Comments: Dorothy Prosser
- * Created 5/30/24
+ * 
+ * Joyce Tang
+ * Kyler Veenstra
+ * Dorothy Prosser
+ * 5/31/2024
+ * 
  */
+
+
 const fs = require("fs/promises");
 const route = "./listdata.json";
 
@@ -23,7 +30,12 @@ async function ReadData() {
 	}
 }
 
-
+/**
+ * WriteData
+ * Write all of dataOut to the file.
+ * @param {} dataOut The data to write
+ * @returns True if successful. False otherwise.
+ */
 async function WriteData(dataOut) {
 	try {
 		await fs.writeFile("./listdata.json", stringify(dataOut), "utf8");
@@ -37,11 +49,12 @@ async function WriteData(dataOut) {
 
 
 /**
+ * ModifyItem
  * This function and AddItem both read the entire list into server memory to add one item.
  * This is incredibly inefficient and should probably be fixed.
- * @param {} index 
- * @param {*} stringData 
- * @returns 
+ * @param {} index The index to modify.
+ * @param {*} stringData The data to change the item to.
+ * @returns True if successful. False otherwise.
  */
 async function ModifyItem(index, stringData) {
   try {
@@ -50,6 +63,7 @@ async function ModifyItem(index, stringData) {
 
     if (list.length >= index) {
       if (stringData == "") {
+        // If the item passed is empty, simply remove the item from the list.
         list.splice(index, 1);
       }
       else {
@@ -86,11 +100,13 @@ async function WriteData(dataOut) {
 }
 
 /**
- * This function and AddItem both read the entire list into server memory to add one item.
+ * AddItem
+ * Add an item to the list.
+ * This function and modify reads the entire list into server memory to add one item.
  * This is incredibly inefficient and should probably be fixed.
- * @param {} index 
- * @param {*} stringData 
- * @returns 
+ * @param {} index The index to add at.
+ * @param {*} stringData The data to add.
+ * @returns true if successful. False otherwise.
  */
 async function AddItem(index, stringData) {
   try {
@@ -117,6 +133,10 @@ async function AddItem(index, stringData) {
   }
 }
 
+/**
+ * DeleteItem
+ * @returns true if successful.
+ */
 async function DeleteItem() {
   try {
     const data = await fs.readFile(route, "utf8");

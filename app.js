@@ -1,3 +1,16 @@
+/**
+ * app.js
+ * Backend for list project.
+ * 
+ * CSC 3221
+ * 
+ * Joyce Tang
+ * Kyler Veenstra
+ * Dorothy Prosser
+ * 5/31/2024
+ * 
+ */
+
 // Get 3rd Party modules
 const express = require("express");
 // Get Custom built modules
@@ -21,16 +34,27 @@ app.get("/api", async (req, res) => {
 	}
 });
 
+/**
+ * Post request handler.
+ * Gets a post request with three properties: mode, data, index (optional).
+ * Calls the filemanager to write the data to the list.
+ * Has multiple error messages in case the POST request is malformed.
+ */
 app.post("/api", async (req, res) => {
-	console.log("Request recieved!");
+	// Log the recieved request to the console.
+	console.log("POST request recieved!");
 	try {
 		console.log(req.body);
 		let item = req.body;
+
+		// The request should have one of two things as its mode: modify, or add.
+		// Modify should mutilate the list. Add should add an item.
 		if (item.hasOwnProperty("mode")) {
 			if (item.mode == "modify") {
 				if (
 					(item.hasOwnProperty("index"), item.hasOwnProperty("data"))
 				) {
+					// Log the modification.
 					console.log(
 						"Modifying item #" +
 							item.index +
@@ -46,6 +70,7 @@ app.post("/api", async (req, res) => {
 				}
 			} else if (item.mode == "add") {
 				if (item.hasOwnProperty("data")) {
+					// Add an item to the list.
 					if (item.data != "") {
 						console.log(
 							"Adding item " +
@@ -80,12 +105,16 @@ app.post("/api", async (req, res) => {
 	}
 });
 
+/**
+ * Delete
+ * Recieves a blank delete request, and deletes the first item from the database.
+ */
 app.delete("/api", async (req, res) => {
 	try {
 		let item = req.body;
 		console.log("Deleting item.");
 
-		const data = await fm.DeleteItem(req.stringItem);
+		const data = await fm.DeleteItem();
 		if (data === -1) {
 			throw new Error("Item not found");
 		}
