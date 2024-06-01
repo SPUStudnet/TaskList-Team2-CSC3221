@@ -45,6 +45,11 @@ button {
   font-family: inherit;
 }
 
+#note {
+  font-style: italic;
+  font-size: 1.5rem;
+}
+
 /* Elements
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 h1, h2, h3, h4, h5, h6 {
